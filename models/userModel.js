@@ -8,11 +8,13 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please tell us your name!'],
+    trim: true,
   },
   email: {
     type: String,
     required: [true, 'Please provide your email'],
     unique: true,
+    trim: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
@@ -25,12 +27,14 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password'],
+    trim: true,
     minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password'],
+    trim: true,
     validate: {
       // This only work on  CREATE and SAVE
       validator: function (el) {

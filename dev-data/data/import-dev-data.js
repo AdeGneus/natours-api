@@ -7,19 +7,10 @@ dotenv.config({ path: './config.env' });
 
 const DB = process.env.DATABASE_LOCAL;
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('DB Connection successful!'));
+mongoose.connect(DB).then(() => console.log('DB Connection successful!'));
 
 // READ JSON file
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 // Import data
 const importData = async () => {
