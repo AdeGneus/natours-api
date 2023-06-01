@@ -28,6 +28,9 @@ const handleJWTExpiredError = () =>
 const handleMulterError = (err) =>
   new AppError(`${err.message}. Please upload an image not exceeding 1MB`, 400);
 
+const handleSendGridError = (err) =>
+  new AppError(`${err.response.split('.')[0].replace('550 ', '')}`, 400);
+
 const sendErrorDev = (err, req, res) => {
   // API
   if (req.originalUrl.startsWith('/api')) {
@@ -99,6 +102,7 @@ module.exports = (err, req, res, next) => {
     if (err.name === 'JsonWebTokenError') err = handleJWTError(err);
     if (err.name === 'TokenExpiredError') err = handleJWTExpiredError();
     if (err.name === 'MulterError') err = handleMulterError(err);
+    if (err.code === 'EMESSAGE') err = handleSendGridError(err);
     sendErrorProd(err, req, res);
   }
 };
