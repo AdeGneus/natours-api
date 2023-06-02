@@ -8,6 +8,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -19,8 +21,15 @@ const bookingRouter = require('./routes/bookingRoutes');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// Implement cors
+app.use(cors());
+
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -69,7 +78,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Prevent Denail of Service and Brute Force Attack by limiting request from same IP
+// Prevent Denial of Service and Brute Force Attack by limiting request from same IP
+// This allows 100 requests in one hour from a particular IP
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -101,6 +111,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
