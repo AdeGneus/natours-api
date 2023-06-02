@@ -16,13 +16,13 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 // const DB = process.env.DATABASE_LOCAL;
-
-mongoose.connect(DB).then(() => console.log('DB Connection successful!'));
+let server;
 
 const port = process.env.PORT || 3000;
-
-const server = app.listen(port, () => {
-  console.log(`App listening on ${port}`);
+mongoose.connect(DB).then(() => {
+  server = app.listen(port, () => {
+    console.log(`App listening on ${port}`);
+  });
 });
 
 process.on('unhandledRejection', (err) => {
