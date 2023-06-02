@@ -15,6 +15,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 
 const app = express();
 
@@ -29,11 +30,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 const scriptSrcUrls = [
   'https://api.tiles.mapbox.com/',
   'https://api.mapbox.com/',
+  'https://js.stripe.com/',
+  'https://js.stripe.com/v3/',
 ];
 const styleSrcUrls = [
   'https://api.mapbox.com/',
   'https://api.tiles.mapbox.com/',
   'https://fonts.googleapis.com/',
+  'https://js.stripe.com/',
 ];
 const connectSrcUrls = [
   'https://api.mapbox.com/',
@@ -41,12 +45,14 @@ const connectSrcUrls = [
   'https://b.tiles.mapbox.com/',
   'https://events.mapbox.com/',
   'ws://localhost:*',
+  'https://js.stripe.com/',
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: [],
+      frameSrc: ["'self'", 'https://js.stripe.com/'],
       connectSrc: ["'self'", ...connectSrcUrls],
       scriptSrc: ["'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
@@ -107,6 +113,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

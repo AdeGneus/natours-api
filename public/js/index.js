@@ -3,13 +3,15 @@ import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
+import { bookTour } from './stripe';
 
 // DOM Elements
 const mapbox = document.getElementById('map');
-const loginForm = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
+const bookBtn = document.getElementById('book-tour');
 
 // Delegation
 if (mapbox) {
@@ -18,11 +20,15 @@ if (mapbox) {
 }
 
 if (loginForm) {
-  document.querySelector('.form').addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    document.querySelector('.btn--login').textContent = 'Logging in...';
+
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    login(email, password);
+
+    await login(email, password);
+    document.querySelector('.btn--login').textContent = 'Login';
   });
 }
 
@@ -57,3 +63,11 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
+
+if (bookBtn) {
+  bookBtn.addEventListener('click', (e) => {
+    e.target.textContent = 'Processing...';
+    const { tourId } = e.target.dataset;
+    bookTour(tourId);
+  });
+}
