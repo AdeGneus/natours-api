@@ -56,6 +56,7 @@ const connectSrcUrls = [
   'https://events.mapbox.com/',
   'ws://localhost:*',
   'https://js.stripe.com/',
+  'https://127.0.0.1:*',
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 app.use(

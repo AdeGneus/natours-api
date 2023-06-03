@@ -15,7 +15,7 @@ const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
 );
-// const DB = process.env.DATABASE_LOCAL;
+
 let server;
 
 const port = process.env.PORT || 3000;
