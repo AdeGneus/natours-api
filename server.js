@@ -23,6 +23,7 @@ mongoose.connect(DB).then(() => {
   server = app.listen(port, () => {
     console.log(`App listening on ${port}`);
   });
+  console.log('DB connection successful');
 });
 
 process.on('unhandledRejection', (err) => {

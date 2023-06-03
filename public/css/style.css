@@ -1322,3 +1322,13 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+.form__login {
+  font-size: 1.8rem;
+}
+
+.form__login a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #55c57a;
+}
