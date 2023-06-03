@@ -4,6 +4,7 @@ import { displayMap } from './mapbox';
 import { signup } from './signup';
 import { login, logout } from './login';
 import { forgotPassword } from './forgotPassword';
+import { resetPassword } from './resetPassword';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
@@ -13,6 +14,7 @@ const mapbox = document.getElementById('map');
 const signupForm = document.querySelector('.form--signup');
 const loginForm = document.querySelector('.form--login');
 const forgotPasswordForm = document.querySelector('.form--forgot');
+const resetPasswordForm = document.querySelector('.form--reset');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
@@ -63,6 +65,24 @@ if (forgotPasswordForm) {
 
     await forgotPassword(email);
     document.querySelector('.btn--forgot').textContent = 'Submit';
+  });
+}
+
+if (resetPasswordForm) {
+  resetPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    document.querySelector('.btn--reset').textContent = 'Resetting...';
+
+    const password = document.getElementById('passwordResetPassword').value;
+    const passwordConfirm = document.getElementById(
+      'passwordConfirmResetPassword'
+    ).value;
+    const resetToken = document.getElementById('resetToken').value;
+
+    await resetPassword(password, passwordConfirm, resetToken);
+
+    document.querySelector('.btn--reset').textContent = 'Reset';
   });
 }
 

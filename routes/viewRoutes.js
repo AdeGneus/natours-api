@@ -14,6 +14,7 @@ router.get('/signup', viewsController.getSignupForm);
 router.get('/me', authController.protect, viewsController.getAccount);
 
 router.get('/forgotPassword', viewsController.getForgotPasswordForm);
+router.get('/resetPassword/:resetToken', viewsController.getresetPasswordForm);
 
 router.get('/my-tours', authController.protect, viewsController.getMyTours);
 
